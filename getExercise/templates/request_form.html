@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>表单提交</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.css" media="screen" title="表单提交">
+</head>
+<body>
+{# 分两列: stackable two column grid #}
+    <div class="ui stackable two column grid container">
+        <div class="column">
+            <div class="ui green segment">
+                <h2 class="ui header">Request-Get</h2>
+                <form class="ui form" action="https://duckduckgo.com" method="get">
+                    <div class="field">
+                        <label>Content</label>
+                        <input type="text" name="q" value="">
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="ia" value="web">
+                            <label>Seach for web</label>
+                        </div>
+                    </div>
+                    <button class="ui green button" type="submit">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui blue segment">
+                <h2 class="ui header">Request-Post</h2>
+                <form class="ui form" action="https://duckduckgo.com" method="post">
+                    <div class="field">
+                        <label>Content</label>
+                        <input type="text" name="q" value="">
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="ia" value="web">
+                            <label>Search for web</label>
+                        </div>
+                    </div>
+                    <button class="ui blue button" type="submit">
+                        Sublmit
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
