@@ -57,7 +57,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 # 获取评论最新所有的数据并展示评论详情,
-def detail(request, id):
+def detail(request, id, error_form=None):
     context = {}
     # 显示文章的投票人,投票信息
     vid_info = Article.objects.get(id=id)
@@ -69,37 +69,35 @@ def detail(request, id):
         pass
 
     context['vid_info'] = vid_info
-    return render(request, 'detail.html', context)
 
     # 显示最优评论
-    '''
     form = CommentForm
-    a = Article.objects.get(id=page_num)
+    a = Article.objects.get(id=id)
     best_comment = Comment.objects.filter(best_comment=True, belong_to=a)
     if best_comment:
         context['best_comment'] = best_comment[0]
-    article = Article.objects.get(id=page_num)
+    article = Article.objects.get(id=id)
     context['article'] = article
     if error_form is not None:
         context['form'] = error_form
     else:
         context['form'] = form
-    '''
+    return render(request, 'detail.html', context)
 
 
 # 提交评论
-def detail_comment(request, page_num):
+def detail_comment(request, id):
     form = CommentForm(request.POST)
     if form.is_valid():
         name = form.cleaned_data['name']
         comment = form.cleaned_data['comment']
-        a = Article.objects.get(id=page_num)
+        a = Article.objects.get(id=id)
         c = Comment(name=name, comment=comment, belong_to=a)
         c.save()
     else:
-        return detail(request, page_num=page_num, error_form=form)
+        return detail(request, id, error_form=form)
 
-    return redirect(to='detail', page_num=page_num)
+    return redirect(to='detail', id=id)
 
 def index_login(request):
     context = {}

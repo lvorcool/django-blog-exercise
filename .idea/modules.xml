@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/PycharmProjects/level2Exercise/.idea/level2Exercise.iml" filepath="$USER_HOME$/PycharmProjects/level2Exercise/.idea/level2Exercise.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/level2Exercise.iml" filepath="$PROJECT_DIR$/.idea/level2Exercise.iml" />
     </modules>
   </component>
 </project>
