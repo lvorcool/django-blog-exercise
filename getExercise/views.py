@@ -99,6 +99,19 @@ def detail_comment(request, id):
 
     return redirect(to='detail', id=id)
 
+def detail_vote(request, id):
+    voter_id = request.user.profile.id
+
+    try:
+        user_ticket_for_this_article = Ticket.objects.get(voter_id=voter_id, article_id=id)
+        user_ticket_for_this_article.choice = request.POST['vote']
+        user_ticket_for_this_article.save()
+    except ObjectDoesNotExist:
+        new_ticket = Ticket(voter_id=voter_id, article_id=id, choice=request.POST['vote'])
+        new_ticket.save()
+
+    return redirect(to='detail', id=id)
+
 def index_login(request):
     context = {}
     if request.method == 'GET':

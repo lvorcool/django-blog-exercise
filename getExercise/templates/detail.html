@@ -5,56 +5,104 @@
     <meta charset="utf-8">
     <title>first web</title>
     <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" href="{% static 'css/detail.css' %}" media="screen" title="no title" charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway" rel="stylesheet">
 </head>
 <body>
 <div class="ui inverted top fixed menu borderless red menu">
     <div class="header item">
         <div class="ui image">
-            <img src="{% static 'images/tenlogo.png' %}" alt="" />
+            <img src="{% static 'images/tenlogo.png' %}" alt=""/>
         </div>
     </div>
 
     <div class="right menu">
         {% if request.user.is_authenticated %}
-            <div class="item">
-                <h5 class="ui inverted header">
-                    <span style="margin-right: 20px;">{{ request.user.username }}</span>
-                    <div class="ui mini circular image">
-                        {% if request.user.profile.profile_image %}
-                            <img src="/upload/{{ request.user.profile.profile_image }}" alt="" />
-                        {% else %}
-                            <img src="http://semantic-ui.com/images/avatar/small/matt.jpg" alt="" />
-                        {% endif %}
-                    </div>
-                </h5>
-            </div>
-            <div class="item">
-                <a href="{% url 'logout' %}" class="ui inverted circular button">退出登录</a>
-            </div>
+        <div class="item">
+            <h5 class="ui inverted header">
+                <span style="margin-right: 20px;">{{ request.user.username }}</span>
+                <div class="ui mini circular image">
+                    {% if request.user.profile.profile_image %}
+                    <img src="/upload/{{ request.user.profile.profile_image }}" alt=""/>
+                    {% else %}
+                    <img src="http://semantic-ui.com/images/avatar/small/matt.jpg" alt=""/>
+                    {% endif %}
+                </div>
+            </h5>
+        </div>
+        <div class="item">
+            <a href="{% url 'logout' %}" class="ui inverted circular button">退出登录</a>
+        </div>
 
         {% else %}
 
-            <div class="item">
-                <h5 class="ui inverted header">
-                    <span style="margin-right: 20px;">{{ request.user.username }}</span>
-                    <div class="ui mini circular image">
-                        <img src="http://semantic-ui.com/images/avatar/small/matt.jpg" alt="" />
-                    </div>
-                </h5>
-            </div>
-            <div class="item">
-                <a href="#" class="ui inverted circular button">注册/登录</a>
-            </div>
+        <div class="item">
+            <h5 class="ui inverted header">
+                <span style="margin-right: 20px;">{{ request.user.username }}</span>
+                <div class="ui mini circular image">
+                    <img src="http://semantic-ui.com/images/avatar/small/matt.jpg" alt=""/>
+                </div>
+            </h5>
+        </div>
+        <div class="item">
+            <a href="#" class="ui inverted circular button">注册/登录</a>
+        </div>
         {% endif %}
 
     </div>
 </div>
 
+<div class="ui vertical inverted detail segment" style="background-image: url({% static 'images/detail.jpg' %})"></div>
+    <div class="ui basic segment container">
+        <h1 class="ui header">{{ vid_info.headline }}</h1>
+        <i class="icon grey unhide"></i>
+        <span style="color: #bbbbbb">{{ vid_info.views }}人已阅读</span>
+        <span class="" style="color:rgb(226,226,226)"></span>
+        <i class="icon grey checkmark"></i>
+        <span style="color: #bbbbbb">{{ vid_info.favs }}人收藏</span>
+    </div>
+    <p>
+        {{ vid_info.content }}
+    </p>
+    <div class="ui divider"></div>
+    <form class="ui form" action="{% url 'vote' vid_info.id %}" method="post">
+        {% csrf_token %}
+            {% if user_ticket.choice == 'like' %}
+                <button class="ui red tiny button" type="submit" name="vote" value="normal">
+                    <i class="icon checkmark"></i>
+                    赞
+                </button>
 
-<div class="ui  segment padded container">
-    <h1 class="ui header" style="font-family:'Oswald', sans-serif;font-size:40px; margin:50px 40px 40px 50px;">
+                <button class="ui tiny button" type="submit" name="vote" value="dislike">
+                    <i class="icon bomb"></i>
+                    踩
+                </button>
+            {% elif user_ticket.choice == 'dislike' %}
+                <button class="ui tiny button" type="submit" name="vote" value="like">
+                    <i class="icon checkmark"></i>
+                    赞
+                </button>
+                <button class="ui red tiny button" type="submit" name="vote" value="normal">
+                    <i class="icon bomb"></i>
+                    踩
+                </button>
+            {% else %}
+                <button class="ui tiny button" type="submit" name="vote" value="like">
+                    <i class="icon checkmark"></i>
+                    赞
+                </button>
+                <button class="ui tiny button" type="submit" name="vote" value="dislike">
+                    <i class="icon bomb"></i>
+                    踩
+                </button>
+            {% endif %}
+
+            <button class="ui secondary circular tiny right floated pin icon button">
+                <i class="pin icon"></i>
+                保存
+            </button>
+    </form>
+<div class="ui  segment very padded container">
+    <h1 class="ui header" style="font-family:'Oswald', sans-serif;font-size:40px; margin:30px 50px 50px 50px;">
         {{ vid_info.headline }}
     </h1>
     <p>
@@ -67,42 +115,42 @@
     <h3 class="ui header" style="font-family:'Oswald', sans-serif;">Comments</h3>
     <div class="ui comments">
         {% if best_comment %}
-            <div class="ui mini red left ribbon label">
-                <i class="icon fire"></i>
-                BEST
+        <div class="ui mini red left ribbon label">
+            <i class="icon fire"></i>
+            BEST
+        </div>
+        <div class="best comment">
+            <div class="avatar">
+                <img src="{{ best_comment.avatar }}" alt="">
             </div>
-            <div class="best comment">
-                <div class="avatar">
-                    <img src="{{ best_comment.avatar }}" alt="" >
+            <div class="content">
+                <a href="#" class="author">{{ best_comment.name }}</a>
+                <div class="metadata">
+                    <div class="date">{{ comment.createtime|date:"m-d H:i:s" }}</div>
                 </div>
-                <div class="content">
-                    <a href="#" class="author">{{ best_comment.name }}</a>
-                    <div class="metadata">
-                        <div class="date">{{ comment.createtime|date:"m-d H:i:s" }}</div>
-                    </div>
-                    <p class="text" style="font-family: 'Raleway', sans-serif;">
-                        {{ best_comment.comment }}
-                    </p>
-                </div>
+                <p class="text" style="font-family: 'Raleway', sans-serif;">
+                    {{ best_comment.comment }}
+                </p>
             </div>
-            <div class="ui divider"></div>
+        </div>
+        <div class="ui divider"></div>
         {% endif %}
 
         {% for comment in vid_info.under_comments.all %}
-            <div class="comment">
-                <div class="avatar">
-                    <img src="{{ comment.avatar }}" alt="" >
-                </div>
-                <div class="content">
-                    <a href="#" class="author">{{ comment.name }}</a>
-                    <div class="metadata">
-                        <div class="date">{{ comment.createtime|date:"m-d H:i:s" }}</div>
-                    </div>
-                    <p class="text" style="font-family: 'Raleway', sans-serif;">
-                        {{ comment.comment }}
-                    </p>
-                </div>
+        <div class="comment">
+            <div class="avatar">
+                <img src="{{ comment.avatar }}" alt="">
             </div>
+            <div class="content">
+                <a href="#" class="author">{{ comment.name }}</a>
+                <div class="metadata">
+                    <div class="date">{{ comment.createtime|date:"m-d H:i:s" }}</div>
+                </div>
+                <p class="text" style="font-family: 'Raleway', sans-serif;">
+                    {{ comment.comment }}
+                </p>
+            </div>
+        </div>
         {% endfor %}
 
     </div>
@@ -110,22 +158,22 @@
     <!--表单提交-->
     <form class="ui error form" action="{% url 'comment' vid_info.id %}" method="post">
         {% if form.errors %}
-            <div class="ui error message">
-                {{ form.errors }}
-            </div>
-            {% for field in form %}
-                <div class="{{ field.errors|yesno:'error, ' }} field">
-                    {{ field.label }}
-                    {{ field }}
-                </div>
-            {% endfor %}
+        <div class="ui error message">
+            {{ form.errors }}
+        </div>
+        {% for field in form %}
+        <div class="{{ field.errors|yesno:'error, ' }} field">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        {% endfor %}
         {% else %}
-            {% for field in form %}
-                <div class="field">
-                    {{ field.label }}
-                    {{ field }}
-                </div>
-            {% endfor %}
+        {% for field in form %}
+        <div class="field">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        {% endfor %}
 
         {% endif %}
         {% csrf_token %}
