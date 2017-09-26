@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^detail/vote/(?P<id>\d+)$', detail_vote, name='vote'),
     url(r'^login/$', index_login, name='login'),
     url(r'^register/$', index_register, name='register'),
-    url(r'^logout/$', logout, {'next_page':'/register'}, name='logout'),
+    url(r'^logout/$', logout, {'next_page':'/login'}, name='logout'),
 
 ]
 
