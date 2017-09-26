@@ -7,11 +7,44 @@
     <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway" rel="stylesheet">
 </head>
+<style>
+    .ui.inverted.top.fixed.menu.borderless.red.menu {
+        background-color: #ff5144;
+    }
+    .ui.vertical.inverted.detail.segment {
+        height: 500px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url();
+    }
+
+    .ui.basic.segment.container {
+        margin-top: 30px;
+        width: 700px;
+    }
+    .ui.basic.segment.container > p {
+        margin-top: 30px;
+        font-size: 20px;
+    }
+
+    .ui.center.paginator.aligned.container {
+        margin-top: 50px;
+    }
+    body {
+                background:url({% static 'images/star_banner.jpg' %});
+                background-size:cover;
+                background-repeat:no-repeat;
+                background-attachment:fixed
+            }
+
+</style>
 <body>
 <div class="ui inverted top fixed menu borderless red menu">
     <div class="header item">
         <div class="ui image">
-            <img src="{% static 'images/tenlogo.png' %}" alt=""/>
+            <a href="{% url 'index' %}">
+                <img src="{% static 'images/tenlogo.png' %}" alt=""/>
+            </a>
         </div>
     </div>
 
@@ -50,19 +83,24 @@
 
     </div>
 </div>
-
-<div class="ui vertical inverted detail segment" style="background-image: url({% static 'images/detail.jpg' %})"></div>
-    <div class="ui basic segment container">
-        <h1 class="ui header">{{ vid_info.headline }}</h1>
+<div class="ui divider"></div>
+<div class="ui divider"></div>
+<div class="ui divider"></div>
+<div class="ui  segment padded container" style="width: 700px;height: auto">
+    <div class="ui segment">
+        <h1 class="ui header">
+            {{ vid_info.headline }}</h1>
         <i class="icon grey unhide"></i>
         <span style="color: #bbbbbb">{{ vid_info.views }}人已阅读</span>
         <span class="" style="color:rgb(226,226,226)"></span>
         <i class="icon grey checkmark"></i>
         <span style="color: #bbbbbb">{{ vid_info.favs }}人收藏</span>
     </div>
-    <p>
-        {{ vid_info.content }}
-    </p>
+        <p>
+            {{ vid_info.content }}
+        </p>
+
+
     <div class="ui divider"></div>
     <form class="ui form" action="{% url 'vote' vid_info.id %}" method="post">
         {% csrf_token %}
@@ -101,14 +139,16 @@
                 保存
             </button>
     </form>
-<div class="ui  segment very padded container">
-    <h1 class="ui header" style="font-family:'Oswald', sans-serif;font-size:40px; margin:30px 50px 50px 50px;">
-        {{ vid_info.headline }}
-    </h1>
-    <p>
-        {{ vid_info.content }}
-    </p>
 </div>
+
+<!--<div class="ui  segment very padded container">-->
+    <!--<h1 class="ui header" style="font-family:'Oswald', sans-serif;font-size:40px; margin:30px 50px 50px 50px;">-->
+        <!--{{ vid_info.headline }}-->
+    <!--</h1>-->
+    <!--<p>-->
+        <!--{{ vid_info.content }}-->
+    <!--</p>-->
+<!--</div>-->
 
 <!-- Comments&Form's here -->
 <div class="ui segment container" style="width:700px;">
